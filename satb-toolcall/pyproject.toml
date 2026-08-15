@@ -1,0 +1,30 @@
+[project]
+name = "satb-toolcall"
+version = "0.1.0"
+description = "MCP tool that drives partwriter.com's automatic SATB part-writer"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.0.0",
+    "playwright>=1.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+satb-partwriter = "satb_toolcall.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["satb_toolcall*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+# The live tests share one warm browser across the module, so the fixture and
+# the tests must run on the same event loop.
+asyncio_default_fixture_loop_scope = "module"
+asyncio_default_test_loop_scope = "module"
+markers = ["live: hits partwriter.com through a real browser"]
